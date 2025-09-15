@@ -1,39 +1,39 @@
 # TypeScript Next.js AI SDK 5 Starter
 
-A minimal starter template for building AI-powered applications with Next.js 15, TypeScript, and AI SDK 5.
+Minimal starter for AI apps with Next.js 15, TypeScript, AI SDK 5, shadcn/ui, and AI Elements.
 
-## What's included
+## Features
 
-- **Next.js 15** with App Router and TypeScript
-- **AI SDK 5** with OpenAI provider for text generation
-- **Basic chat interface** with message history
-- **Tailwind CSS** for styling
-- **Non-streaming AI responses** for simple interactions
+- Clean chat interface with GPT-5
+- AI Elements components (Conversation, Message, PromptInput)
+- shadcn/ui design system
+- Non-streaming responses
+- TypeScript ready
 
 ## Setup
 
-1. Clone this repository
-2. Install dependencies:
+1. Install dependencies:
    ```bash
    pnpm install
    ```
 
-3. Create a `.env.local` file and add your OpenAI API key:
-   ```
-   OPENAI_API_KEY=your_openai_api_key_here
+2. Create `.env.local` file:
+   ```bash
+   echo "OPENAI_API_KEY=your_openai_api_key_here" > .env.local
    ```
 
-4. Start development server:
+3. Start development:
    ```bash
    pnpm dev
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) and start chatting with the AI assistant
+Open [http://localhost:3000](http://localhost:3000) to chat with the AI assistant.
 
-## What it does
+## Resources
 
-- Simple chat interface where you can send messages to an AI assistant
-- Uses GPT-4 via OpenAI for generating responses
-- Displays conversation history with user and assistant messages
-- Shows loading state while waiting for AI responses
-- Responsive design that works on mobile and desktop
+- [Next.js 15](https://nextjs.org/) - React framework
+- [AI SDK 5](https://ai-sdk.dev/) - AI integration toolkit
+- [AI Elements](https://ai-sdk.dev/elements/overview) - Pre-built AI components
+- [shadcn/ui](https://ui.shadcn.com/) - Component library
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS
+- [TypeScript](https://www.typescriptlang.org/) - Type-safe JavaScript
