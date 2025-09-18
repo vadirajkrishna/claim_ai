@@ -30,6 +30,12 @@ export default function ChatAssistant() {
   ) => {
     if (!message.text?.trim() || isLoading) return;
 
+    // Clear the form immediately after extracting the message
+    const form = (event.target as Element)?.closest('form') as HTMLFormElement;
+    if (form) {
+      form.reset();
+    }
+
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       role: "user",
@@ -67,13 +73,11 @@ export default function ChatAssistant() {
     } finally {
       setIsLoading(false);
     }
-
-    (event.target as HTMLFormElement).reset();
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <Conversation className="flex-1">
+    <div className="flex flex-col h-full max-h-full overflow-hidden">
+      <Conversation className="flex-1 h-0 overflow-hidden">
         <ConversationContent className="space-y-4">
           {messages.length === 0 ? (
             <ConversationEmptyState
@@ -95,7 +99,7 @@ export default function ChatAssistant() {
         </ConversationContent>
       </Conversation>
 
-      <div className="p-4">
+      <div className="p-4 flex-shrink-0">
         <PromptInput onSubmit={handleSubmit}>
           <PromptInputBody>
             <PromptInputTextarea placeholder="What would you like to know?" />

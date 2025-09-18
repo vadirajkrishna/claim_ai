@@ -1,25 +1,30 @@
-import { openai } from '@ai-sdk/openai';
-import { generateText } from 'ai';
-import { NextRequest, NextResponse } from 'next/server';
+import { SYSTEM_INSTRUCTIONS } from "@/components/agent/prompt";
+import { openai } from "@ai-sdk/openai";
+import { generateText } from "ai";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
     const { message } = await request.json();
 
     if (!message) {
-      return NextResponse.json({ error: 'Message is required' }, { status: 400 });
+      return NextResponse.json(
+        { error: "Message is required" },
+        { status: 400 }
+      );
     }
 
     const { text } = await generateText({
-      model: openai('gpt-5'),
+      model: openai("gpt-5"),
+      system: SYSTEM_INSTRUCTIONS,
       prompt: message,
     });
 
     return NextResponse.json({ response: text });
   } catch (error) {
-    console.error('Chat API error:', error);
+    console.error("Chat API error:", error);
     return NextResponse.json(
-      { error: 'Failed to generate response' },
+      { error: "Failed to generate response" },
       { status: 500 }
     );
   }
