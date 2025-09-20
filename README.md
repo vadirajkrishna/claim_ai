@@ -1,10 +1,6 @@
-# TypeScript Next.js AI SDK 5 Starter
+# Agentic Fraud Detection Copilot (Insurance)
 
-Minimal starter for AI apps with Next.js 15, TypeScript, AI SDK 5, shadcn/ui, and AI Elements.
-
-## 3-Week Build Plan — Fraud Detection Copilot (Retail Insurance)
-
-### Week 1 — Data, Rules, Scoring APIs (MVP backend)
+### Stage 1 — Data, Rules, Scoring APIs (MVP backend)
 
 **Goals:** Stand up schema, implement rule checks + anomaly model, expose scoring endpoints.
 
@@ -37,7 +33,7 @@ Minimal starter for AI apps with Next.js 15, TypeScript, AI SDK 5, shadcn/ui, an
 
 ---
 
-### Week 2 — Dashboard UI (SIU Command Center)
+### Stage 2 — Dashboard UI (SIU Command Center)
 
 **Goals:** Investigator-friendly dashboard with drill-down and evidence.
 
@@ -72,7 +68,7 @@ Minimal starter for AI apps with Next.js 15, TypeScript, AI SDK 5, shadcn/ui, an
 
 ---
 
-### Week 3 — Chat Copilot (Agentic UI + Jobs)
+### Stage 3 — Chat Copilot (Agentic UI + Jobs)
 
 **Goals:** Natural-language control to trigger jobs, retrieve lists, and explain flags.
 
