@@ -175,4 +175,87 @@ GET /api/claim/CLM-102938
 
 ---
 
-If you want, I can tailor this to Auto, Home, or Commercial Property (tweaks in rules/fields), or generate a synthetic dataset script you can run to populate the DB.
+## Project Setup
+
+### Bootstrapping the Data
+
+This project includes a comprehensive synthetic dataset generator that creates realistic fraud detection scenarios across Auto, Home, and Travel insurance claims. The dataset is designed to test rule engines, anomaly detection models, and graph-based fraud patterns.
+
+**Dataset Characteristics:**
+- **5,000 synthetic claims** distributed across three product lines:
+  - Auto (45% - 2,250 claims)
+  - Home (35% - 1,750 claims)
+  - Travel (20% - 1,000 claims)
+- **5-10% fraud rate** per category with realistic fraud patterns
+- **Interconnected entities** to support graph analysis
+- **Fraud rings** with shared addresses, bank accounts, and devices
+- **Temporal patterns** including velocity bursts and inception spikes
+
+**Fraud Patterns Included:**
+- **Late reporting:** Claims reported 30+ days after loss
+- **Policy timing issues:** Claims outside policy periods or within 3 days of inception
+- **Suspicious amounts:** Claims just below common thresholds (£5k, £10k, £15k, £20k)
+- **Velocity patterns:** ≥3 claims within 14 days from same address/device/bank
+- **Entity reuse:** Shared bank accounts, addresses, and devices across multiple claims
+- **Geographic clustering:** Fraud rings concentrated in specific locations
+
+**Database Schema:**
+The system uses a normalized PostgreSQL schema with five core tables:
+
+```sql
+-- Core entities
+claims(claim_id, policy_id, claimant_id, loss_date, report_date, loss_type, amount, status)
+policies(policy_id, inception_date, expiry_date, product, region)
+claim_parties(claimant_id, name, email_hash, phone_hash, address_id, bank_account_hash, device_id)
+addresses(address_id, line1, city, postcode, lat, lon)
+scores(claim_id, rule_score, ml_score, graph_score, risk_score, reasons_json, created_at)
+```
+
+### Steps to Run and Add Data to Supabase DB
+
+1. **Create Database Schema**
+   ```bash
+   # Navigate to your Supabase project dashboard
+   # Go to SQL Editor and run the contents of schema.sql
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   pnpm install
+   ```
+
+3. **Configure Environment**
+   ```bash
+   # Update .env with your Supabase credentials
+   SUPABASE_KEY=your_supabase_service_role_key_here
+   ```
+
+4. **Run the Data Generator**
+   ```bash
+   # Generate and insert synthetic data
+   npx tsx seed-data.ts
+   ```
+
+5. **Verify Data Generation**
+   The script will output:
+   - Schema creation confirmation
+   - Progress updates during data generation
+   - Final statistics showing claim distribution by product
+   - Any warnings or errors encountered
+
+**Expected Output:**
+```
+Creating database schema...
+Schema created successfully. Starting data seed...
+Seed complete ✅
+Claims by product: { AUTO: 2250, HOME: 1750, TRAVEL: 1000 }
+```
+
+**Data Generation Features:**
+- **Realistic relationships:** Policies link to claimants, claimants link to addresses
+- **Fraud indicators:** Built-in patterns for rule engine testing
+- **Graph connectivity:** Shared entities create detectable fraud networks
+- **Temporal distribution:** Claims spread across realistic time periods
+- **Geographic distribution:** Addresses span multiple regions (UK, FR, ES, IT, US)
+
+The generated dataset provides a comprehensive foundation for testing fraud detection algorithms, building dashboards, and training ML models.

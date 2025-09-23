@@ -7,6 +7,7 @@ import {
   ConversationEmptyState,
 } from "@/components/ai-elements/conversation";
 import { Message, MessageContent } from "@/components/ai-elements/message";
+import { Response } from "@/components/ai-elements/response";
 import {
   PromptInput,
   PromptInputBody,
@@ -87,7 +88,13 @@ export default function ChatAssistant() {
           ) : (
             messages.map((message) => (
               <Message key={message.id} from={message.role}>
-                <MessageContent>{message.content}</MessageContent>
+                <MessageContent>
+                  {message.role === "assistant" ? (
+                    <Response>{message.content}</Response>
+                  ) : (
+                    message.content
+                  )}
+                </MessageContent>
               </Message>
             ))
           )}

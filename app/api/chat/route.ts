@@ -1,7 +1,27 @@
-import { SYSTEM_INSTRUCTIONS } from "@/components/agent/prompt";
-import { openai } from "@ai-sdk/openai";
-import { generateText } from "ai";
+import { SYSTEM_INSTRUCTIONS, SQL_QUERY_PROMPT } from "@/components/agent/prompt";
 import { NextRequest, NextResponse } from "next/server";
+import { Agent, handoff, run } from '@openai/agents';
+
+// SQL Query Generator Agent
+const sqlQueryGeneratorAgent = new Agent({
+  name: 'SQL Query Generator',
+  instructions: SQL_QUERY_PROMPT,
+  model: 'gpt-5'
+});
+
+// Create handoff object without onHandoff callback to avoid the inputType requirement
+const sqlHandoff = handoff(sqlQueryGeneratorAgent, {
+  toolNameOverride: 'generate_sql_queries',
+  toolDescriptionOverride: 'Generate PostgreSQL fraud detection queries for a specific claim ID',
+});
+
+// Main Orchestrator Agent
+const orchestratorAgent = new Agent({
+  name: 'Fraud Investigation Assistant',
+  instructions: SYSTEM_INSTRUCTIONS,
+  model: 'gpt-5',
+  handoffs: [sqlHandoff]
+});
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,13 +34,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { text } = await generateText({
-      model: openai("gpt-5"),
-      system: SYSTEM_INSTRUCTIONS,
-      prompt: message,
-    });
+    // Run the orchestrator agent
+    const result = await run(orchestratorAgent, message);
 
-    return NextResponse.json({ response: text });
+    return NextResponse.json({
+      response: result.finalOutput
+    });
   } catch (error) {
     console.error("Chat API error:", error);
     return NextResponse.json(

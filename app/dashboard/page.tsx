@@ -100,13 +100,15 @@ export default function Dashboard() {
   }
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    })
+    const date = new Date(dateString)
+    // Use a consistent format that doesn't depend on locale/timezone
+    const day = date.getUTCDate().toString().padStart(2, '0')
+    const month = date.toLocaleString('en-GB', { month: 'short', timeZone: 'UTC' })
+    const year = date.getUTCFullYear()
+    const hours = date.getUTCHours().toString().padStart(2, '0')
+    const minutes = date.getUTCMinutes().toString().padStart(2, '0')
+
+    return `${day} ${month} ${year}, ${hours}:${minutes}`
   }
 
   const getRiskBadgeColor = (score: number) => {
@@ -344,7 +346,7 @@ export default function Dashboard() {
                       {claim.status}
                     </Badge>
                   </TableCell>
-                  <TableCell>{formatDate(claim.lastUpdated)}</TableCell>
+                  <TableCell suppressHydrationWarning>{formatDate(claim.lastUpdated)}</TableCell>
                   <TableCell>
                     <Button
                       variant="outline"
@@ -369,7 +371,7 @@ export default function Dashboard() {
         claimId={selectedClaim}
         isOpen={!!selectedClaim}
         onClose={() => setSelectedClaim(null)}
-        claim={selectedClaim ? mockClaims.find(c => c.id === selectedClaim) : null}
+        claim={selectedClaim ? mockClaims.find(c => c.id === selectedClaim) || null : null}
       />
     </div>
   )

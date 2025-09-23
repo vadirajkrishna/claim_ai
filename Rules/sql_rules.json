@@ -1,0 +1,13 @@
+{
+  "late_reporting": "Claims reported more than 30 days after loss date",
+  "policy_inactive_before": "Loss occurred before policy inception date",
+  "policy_inactive_after": "Loss occurred after policy expiry date",
+  "inception_spike": "Loss occurred within 3 days of policy inception",
+  "suspicious_amounts": "Claims just below common thresholds (£5k, £10k, £15k, £20k)",
+  "velocity_14d_address": "3 or more claims from same address within 14 days",
+  "velocity_14d_bank": "3 or more claims to same bank account within 14 days",
+  "velocity_14d_device": "3 or more claims from same device within 14 days",
+  "bank_reuse_30d": "Bank account used across 5+ claims in 30 days",
+  "address_reuse_90d": "Address used across 4+ claims in 90 days",
+  "device_reuse_60d": "Device used across 3+ claims in 60 days"
+}
