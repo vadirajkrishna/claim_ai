@@ -61,3 +61,15 @@ Create `.env.local` with:
 ```
 OPENAI_API_KEY=your_openai_api_key_here
 ```
+
+## For PDF uploads make sure you always have this config in next.config.js
+
+```js
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    serverComponentsExternalPackages: ["pdf-parse"],
+  },
+};
+
+module.exports = nextConfig;

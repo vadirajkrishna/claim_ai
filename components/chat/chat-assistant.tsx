@@ -15,6 +15,7 @@ import {
   PromptInputToolbar,
   PromptInputSubmit,
 } from "@/components/ai-elements/prompt-input";
+
 type ChatMessage = {
   id: string;
   role: "user" | "assistant";
@@ -52,9 +53,11 @@ export default function ChatAssistant() {
         body: JSON.stringify({ message: message.text }),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
+        // Get the JSON response
+        const data = await response.json();
+
+        // Create assistant message with the response
         const assistantMessage: ChatMessage = {
           id: (Date.now() + 1).toString(),
           role: "assistant",
@@ -62,6 +65,7 @@ export default function ChatAssistant() {
         };
         setMessages((prev) => [...prev, assistantMessage]);
       } else {
+        const data = await response.json();
         throw new Error(data.error || "Failed to get response");
       }
     } catch (error) {
